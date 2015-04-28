@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/plantilla/general.xhtml">
+	<ui:define name="menubar">
+		<ui:include src="/plantilla/menuAdmin.xhtml" />
+	</ui:define>
+	
+	<ui:define name="contenidoAdmin">
+		<h:form id="tabla">
+			<center>
+			<h2>LISTA DE TRATAMIENTOS </h2>
+				 <p:dataTable id="tablaTratamientos" var="tratamiento" value="#{tratamientoMB.tratamientoList}" style="width:700px" rows="9" filteredValue="" paginator="true"
+						paginatorPosition="bottom"
+						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+			        <p:column headerText="Id" width="5%">
+			            <h:outputText value="#{tratamiento.id}" />
+			        </p:column>
+			        <p:column headerText="Tratamiento" width="50%" filterBy="#{tratamiento.descripcion}"  filterStyle="width:200px;font-size:10px" filterMatchMode="contains" >
+			            <h:outputText value="#{tratamiento.descripcion}" />
+			        </p:column>
+			        <p:column width="5%">
+			             <p:commandButton id="editar" update=":modificar:datos" oncomplete="PF('dialogoModificar').show()" icon="ui-icon-wrench" title="modificar">
+			               	<f:setPropertyActionListener value="#{tratamiento}" target="#{tratamientoMB.tratamientoSeleccionado}" />	
+			            </p:commandButton>
+			        </p:column>
+			    </p:dataTable>
+			    </center>
+		</h:form>
+		<h:form id="modificar">
+			<p:dialog widgetVar="dialogoModificar" header="DATOS DEL TRATAMIENTO" resizable="false">
+			<p:outputPanel id="datos">
+	
+				<h:panelGrid columns="2" cellspacing="5" style="margin-bottom:8px"  >
+				
+					<p:outputLabel for="tratamiento" value="Descripcion del tratamiento:" /> 	
+					<p:inputTextarea id="tratamiento" rows="3" cols="30" maxlength="80" style="width:450px;height:45px;"  required="true" value="#{tratamientoMB.tratamientoSeleccionado.descripcion}"/>
+				
+					<p:outputLabel value="Estado:  *"/>
+					<p:selectOneMenu value="#{tratamientoMB.tratamientoSeleccionado.estado}">
+						<f:selectItem itemLabel="Activo" itemValue="A" />
+	            		<f:selectItem itemLabel="Inactivo" itemValue="I" />
+					</p:selectOneMenu>
+				
+				</h:panelGrid>
+
+				<p:commandButton id="botonGuardar" styleClass="ui-priority-primary" value="Guardar"  actionListener="#{tratamientoMB.modificarTratamiento}" update=":tabla, :mensajes" />
+				<p:blockUI block="botonGuardar" trigger="botonGuardar" />
+				</p:outputPanel>
+			</p:dialog>
+			</h:form>
+	</ui:define>
+	
+</ui:composition>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/plantilla/general.xhtml">
+	<ui:define name="menubar">
+		<ui:include src="/plantilla/menuAdmin.xhtml" />
+	</ui:define>
+	
+	<ui:define name="contenidoAdmin">
+		<h:form id="tabla">
+			<center>
+			<h2>LISTA DE ENFERMEDADES </h2>
+				 <p:dataTable id="tablaEnfermedades" var="enfermedad" value="#{enfermedadMB.enfermedadList}" style="width:700px" rows="9" filteredValue="" paginator="true"
+						paginatorPosition="bottom"
+						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+    			    <p:column width="5%">
+			             <p:commandButton id="editar" update=":eliminar:datos" oncomplete="PF('dialogoEliminar').show()" icon="ui-icon-trash" title="modificar">
+			               	<f:setPropertyActionListener value="#{enfermedad}" target="#{enfermedadMB.enfermedadSeleccionada}" />	
+			            </p:commandButton>
+			        </p:column>
+			        <p:column headerText="Id" width="5%">
+			            <h:outputText value="#{enfermedad.id}" />
+			        </p:column>
+			        <p:column headerText="Enfermedad" width="50%" filterBy="#{enfermedad.descripcion}"  filterStyle="width:350px;font-size:10px" filterMatchMode="contains" >
+			            <h:outputText value="#{enfermedad.descripcion}" />
+			        </p:column>
+
+			    </p:dataTable>
+			    </center>
+		</h:form>
+		<h:form id="eliminar">
+			<p:dialog id="dialogo" widgetVar="dialogoEliminar" header="DATOS DE LA ENFERMEDAD" resizable="false">
+			<p:outputPanel id="datos" style="font-size:14px">
+	
+				<h:panelGrid columns="2" cellspacing="5" style="margin-bottom:8px"  >
+				
+					<p:outputLabel for="id" value="ID:"/>
+					<p:outputLabel id="id" value="#{enfermedadMB.enfermedadSeleccionada.id}"/>
+					
+					<p:outputLabel for="enfermedad" value="Descripción de la enfermedad:" /> 	
+				    <p:outputLabel id="enfermedad" value="#{enfermedadMB.enfermedadSeleccionada.descripcion}" /> 	
+					
+					<p:outputLabel value="Estado:"/>
+					<p:outputLabel value="#{'A'.charAt(0) == enfermedadMB.enfermedadSeleccionada.estado? 'ACTIVO' :' INACTIVO'}"/>
+				
+				</h:panelGrid>
+				<p:separator/>
+				
+				<p:outputPanel rendered="#{'A'.charAt(0) == enfermedadMB.enfermedadSeleccionada.estado}">
+					<center>
+					<h3>¿DESEA BORRAR LA ENFERMEDAD?</h3>
+					<h:panelGrid columns="2" cellspacing="2">
+							<p:commandButton id="botonBorrar" styleClass="ui-priority-primary" value="Si"
+								actionListener="#{enfermedadMB.eliminarEnfermedad}" update=":tabla, :mensajes" />
+							<p:commandButton id="botonNoBorrar" styleClass="ui-priority-primary" value="No" onclick="PF('dialogoEliminar').hide()" />
+					</h:panelGrid>
+					</center>
+					<p:blockUI block="botonBorrar" trigger="botonBorrar" />
+				</p:outputPanel>
+				<p:outputPanel rendered="#{'A'.charAt(0) != enfermedadMB.enfermedadSeleccionada.estado}">
+					<center>
+					<h3>LA ENFERMEDAD YA SE ENCUENTRA DESACTIVADA</h3>
+					<p:commandButton  styleClass="ui-priority-primary" value="Cerrar" onclick="PF('dialogoEliminar').hide()"/>
+					</center>
+				</p:outputPanel>
+				</p:outputPanel>
+			</p:dialog>
+			</h:form>
+	</ui:define>
+	
+</ui:composition>

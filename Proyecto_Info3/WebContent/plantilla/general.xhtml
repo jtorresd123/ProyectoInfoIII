@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<f:view contentType="text/html" id="fview">
+
+
+	<title>Sistema De Dietas</title>
+	<ui:debug />
+
+	<h:head>
+
+
+		<p:layout fullPage="true">
+
+			<p:layoutUnit position="north" id="north" resizable="false" size="170">
+				<ui:include src="cabecera.xhtml" />
+			</p:layoutUnit>
+	
+  			<p:layoutUnit   position="west" size="295" resizable="false" >
+  				<p:outputPanel rendered="#{loginMB.loggedIn}">
+		      		<ui:insert name="menubar" />
+		      	</p:outputPanel>
+		   </p:layoutUnit>
+		   
+		 
+			<p:layoutUnit position="center" resizable="false" >
+			
+				 <p:outputPanel rendered="#{loginMB.loggedIn}">
+						<p:outputPanel rendered="#{loginMB.moduloActual.equals('administrador')}">
+						
+							<p:outputPanel rendered="#{loginMB.tipoUsuario=='A'.charAt(0)}">
+								<ui:insert name="contenidoAdmin" />
+							</p:outputPanel>
+							
+							<p:outputPanel  rendered="#{loginMB.tipoUsuario=='M'.charAt(0)}">
+								<BR/>
+							 	<BR/>
+							 	<BR/>
+							 	<center> 
+							 		<h1>ACCESO DENEGADO</h1>
+							 		<BR/>
+							 		<h3>Página restringida, debe ser un ADMINISTRADOR para visualizar esta pagina.</h3>
+								</center>							
+							</p:outputPanel>
+						</p:outputPanel>
+						
+						<p:outputPanel id="otro" rendered="#{loginMB.moduloActual.equals('medico')}">
+							<p:outputPanel rendered="#{loginMB.tipoUsuario=='M'.charAt(0)}">
+ 								<ui:insert name="contenidoMed" />
+ 							</p:outputPanel>
+							
+							<p:outputPanel  rendered="#{loginMB.tipoUsuario=='A'.charAt(0)}">
+								<BR/>
+							 	<BR/>
+							 	<BR/>
+							 	<center> 
+							 		<h1>ACCESO DENEGADO</h1>
+							 		<BR/>
+				 					<h3>Página restringida, debe ser un MÉDICO NUTRICIONISTA para visualizar esta pagina.</h3>
+								</center>							
+							</p:outputPanel>
+						</p:outputPanel>
+						
+				 </p:outputPanel>
+				 
+				
+				
+				 <p:outputPanel rendered="#{!loginMB.loggedIn}">
+				 	<BR/>
+				 	<BR/>
+				 	<BR/>
+				 	<center> 
+				 	<h1>ACCESO DENEGADO</h1>
+				 	<BR/>
+				 	<h3>Página restringida, debe iniciar sesión para tener acceso.</h3>
+					 </center>
+				 </p:outputPanel>
+			</p:layoutUnit>
+		</p:layout>  
+	</h:head>
+
+	
+
+
+</f:view>
+</html>

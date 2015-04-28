@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/plantilla/general.xhtml">
+	<ui:define name="menubar">
+		<ui:include src="/plantilla/menuAdmin.xhtml" />
+	</ui:define>
+	
+	<ui:define name="contenidoAdmin">
+		<h:form id="agregar">
+		<h2>NUEVO TRATAMIENTO</h2> 
+		<h:panelGrid columns="2" cellspacing="5" style="margin-bottom:8px; margin-right:7px" >
+		
+			<p:outputLabel for="tratamiento" value="Descripción del tratamiento:" /> 	
+			<p:inputTextarea id="tratamiento" rows="3" cols="30" maxlength="80" style="width:450px;height:45px;"  required="true" value="#{tratamientoMB.descripcion}"/>
+			
+			<p:outputLabel value="Estado:  *"/>
+			<p:outputLabel value="ACTIVO" style="font-weight: bold;font-size:16px"/>
+			
+		</h:panelGrid>
+		<p:spacer width="100" height="10" />
+		<h:panelGrid columns="2">
+		
+			<p:commandButton id="botonAgregar" styleClass="ui-priority-primary" value="Agregar"  actionListener="#{tratamientoMB.agregarTratamiento}" update=":agregar, :mensajes" />
+			<p:commandButton value="Borrar" styleClass="ui-priority-secondary" type="reset" />
+			<p:blockUI block="botonAgregar" trigger="botonAgregar" />
+		</h:panelGrid>			
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/plantilla/general.xhtml">
+	<ui:define name="menubar">
+		<ui:include src="/plantilla/menuAdmin.xhtml" />
+	</ui:define>
+	
+	<ui:define name="contenidoAdmin">
+		<h:form id="agregar">
+		<h2>NUEVO USUARIO</h2> 
+		<h:panelGrid columns="2" cellspacing="5" style="margin-bottom:8px; margin-right:7px" >
+		
+			<p:outputLabel for="usuario" value="Nombre de Usuario:" /> 	
+			<p:inputText id="usuario" value="#{usuarioMB.login}" required="true" maxlength="8"/>
+			
+			<p:outputLabel for="clave" value="Contraseña:" /> 	
+			<p:password id="clave" value="#{usuarioMB.password}" title="debe tener al menos una mayuscula, una minuscula y un número" required="true" maxlength="8">
+			<p:tooltip id="toolTipClave" for="clave" style="font-size:10px" showEvent="focus" hideEvent="blur"/>
+			</p:password>
+			<p:outputLabel for="apellidosNombres" value="Apellidos y Nombres:" /> 
+			<p:inputText id="apellidosNombres" style="width:300px" value="#{usuarioMB.apellidosNombres}" required="true" maxlength="60" />	
+			
+			<p:outputLabel for="correo" value="Correo Electrónico:"/>
+			<p:inputText validatorMessage="Correo no válido" style="width:300px" maxlength="60"  id="correo" required="true" value="#{usuarioMB.correo}" >
+				<f:validateRegex
+					pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+			</p:inputText>
+			
+			<p:outputLabel value="Tipo de usuario:  *" />
+			
+			<p:outputLabel value="MÉDICO NUTRICIONISTA" style="font-weight: bold;font-size:16px"/>
+			<p:outputLabel value="Estado:  *"/>
+			
+			<p:outputLabel value="ACTIVO" style="font-weight: bold;font-size:16px"/>
+			
+		</h:panelGrid>
+		<p:spacer width="100" height="10" />
+		<h:panelGrid columns="2">
+		
+			<p:commandButton id="botonAgregar" styleClass="ui-priority-primary" value="Agregar"  actionListener="#{usuarioMB.agregarUsuario}" update=":agregar, :mensajes" />
+			<p:commandButton value="Borrar" styleClass="ui-priority-secondary" type="reset" />
+			<p:blockUI block="botonAgregar" trigger="botonAgregar" />
+		</h:panelGrid>			
+		</h:form>
+		
+		<p:outputPanel rendered="#{loginMB.tipoUsuario!='A'.charAt(0)}">
+				 	<BR/>
+				 	<BR/>
+				 	<BR/>
+				 	<center> 
+				 	<h1>ACCESO DENEGADO</h1>
+				 	<BR/>
+				 	<h3>Página restringida, usted no cumple los requisitos para visualizar la página.</h3>
+					 </center>
+	 	</p:outputPanel>
+	</ui:define>
+</ui:composition>

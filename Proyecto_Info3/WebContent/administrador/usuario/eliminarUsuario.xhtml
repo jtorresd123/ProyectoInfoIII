@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/plantilla/general.xhtml">
+	<ui:define name="menubar">
+		<ui:include src="/plantilla/menuAdmin.xhtml" />
+	</ui:define>
+	
+	<ui:define name="contenidoAdmin">
+		<h:form id="tabla">
+			<center>
+			<h2>LISTA DE USUARIOS </h2>
+				 <p:dataTable id="tablaUsuarios" var="usuario" value="#{usuarioMB.usuarioList}" style="width:700px" rows="9" filteredValue="" paginator="true"
+						paginatorPosition="bottom"
+						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+     			    <p:column width="5%">
+			             <p:commandButton id="borrar" update=":eliminar:datos" oncomplete="PF('dialogoEliminar').show()" icon="ui-icon-trash" title="eliminar">
+			               <f:setPropertyActionListener value="#{usuario}" target="#{usuarioMB.usuarioSeleccionado}" />	
+			            </p:commandButton>
+			        </p:column>
+			        <p:column headerText="Id" width="5%">
+			            <h:outputText value="#{usuario.id}" />
+			        </p:column>
+			        <p:column headerText="Usuario" width="15%" filterBy="#{usuario.login}"  filterStyle="width:100px;font-size:10px" filterMatchMode="contains" >
+			            <h:outputText value="#{usuario.login}" />
+			        </p:column>
+			        <p:column headerText="Tipo de Usuario" width="15%">
+			            <h:outputText value="#{'A'.charAt(0) == usuario.tipoUsuario?'Administrador':'Médico'}" />
+			        </p:column>
+			        <p:column headerText="Correo" width="20%">
+			            <h:outputText value="#{usuario.correo}" />
+			        </p:column>
+			    </p:dataTable>
+			    </center>
+	    </h:form>
+	    
+		<h:form id="eliminar">
+			<p:dialog id="dialogo" widgetVar="dialogoEliminar" header="DATOS DEL USUARIO" resizable="false">
+			<p:outputPanel id="datos" style="font-size:14px">
+	
+				<h:panelGrid columns="2" cellspacing="5" style="margin-bottom:8px"  >
+					<p:outputLabel for="id" value="ID:"/>
+					<p:outputLabel id="id" value="#{usuarioMB.usuarioSeleccionado.id}"/>
+					<p:outputLabel for="usuario" value="Nombre de Usuario:" /> 					
+					<p:outputLabel id="usuario" value="#{usuarioMB.usuarioSeleccionado.login}"/>
+					
+					<p:outputLabel for="apellidosNombres" value="Apellidos y Nombres:" /> 
+					<p:outputLabel id="apellidosNombres" value="#{usuarioMB.usuarioSeleccionado.apellidosNombres}"/>	
+					
+					<p:outputLabel for="correo" value="Correo Electrónico:"/>
+					<p:outputLabel id="correo" required="true" value="#{usuarioMB.usuarioSeleccionado.correo}" />
+					
+					<p:outputLabel value="Tipo de usuario:" />
+					<p:outputLabel value="#{'A'.charAt(0) == usuarioMB.usuarioSeleccionado.tipoUsuario?'ADMINISTRADOR':'MÉDICO NUTRICIONISTA'}" style="font-weight: bold;font-size:16px"/>
+					
+					<p:outputLabel value="Estado:"/>
+					<p:outputLabel value="#{'A'.charAt(0) == usuarioMB.usuarioSeleccionado.estado? 'ACTIVO' :' INACTIVO'}"/>
+					
+					<p:outputLabel for="fecha" value="Fecha de Creación:"/>
+					<p:outputLabel id="fecha" value="#{usuarioMB.usuarioSeleccionado.fechaCreacion}"/>
+				</h:panelGrid>
+				<p:separator/>
+				
+				<p:outputPanel rendered="#{'A'.charAt(0) == usuarioMB.usuarioSeleccionado.estado}">
+					<center>
+					<h3>¿DESEA BORRAR EL USUARIO?</h3>
+					<h:panelGrid columns="2" cellspacing="2">
+							<p:commandButton id="botonBorrar" styleClass="ui-priority-primary" value="Si"
+								actionListener="#{usuarioMB.eliminarUsuario}" update=":tabla, :mensajes" />
+							<p:commandButton id="botonNoBorrar" styleClass="ui-priority-primary" value="No" onclick="PF('dialogoEliminar').hide()" />
+					</h:panelGrid>
+					</center>
+					<p:blockUI block="botonBorrar" trigger="botonBorrar" />
+				</p:outputPanel>
+				<p:outputPanel rendered="#{'A'.charAt(0) != usuarioMB.usuarioSeleccionado.estado}">
+				
+					<center>
+					<h3>EL USUARIO YA SE ENCUENTRA DESACTIVADO</h3>
+					<p:commandButton  styleClass="ui-priority-primary" value="Cerrar" onclick="PF('dialogoEliminar').hide()"/>
+					</center>
+				</p:outputPanel>
+				</p:outputPanel>
+			</p:dialog>
+			</h:form>
+	</ui:define>
+	
+</ui:composition>

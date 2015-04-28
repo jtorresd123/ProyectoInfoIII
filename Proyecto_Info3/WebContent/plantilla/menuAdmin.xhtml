@@ -1,0 +1,28 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:form rendered="#{loginMB.tipoUsuario=='A'.charAt(0)}">
+	<p:panelMenu style="width:280px;border:none;font-size:14px;">
+		<p:submenu label="Gestión de Usuarios" >
+			<p:menuitem value="Agregar usuarios"  icon="ui-icon-plus" url="/administrador/usuario/crearUsuario.xhtml" />
+			<p:menuitem value="Modificar usuarios" icon="ui-icon-wrench" url="/administrador/usuario/modificarUsuario.xhtml" />
+			<p:menuitem value="Eliminar usuarios" icon="ui-icon-cancel" url="/administrador/usuario/eliminarUsuario.xhtml" />
+		</p:submenu>
+		<p:submenu label="Gestión de Enfermedades" >
+			<p:menuitem value="Agregar enfermedades"  icon="ui-icon-plus" url="/administrador/enfermedad/crearEnfermedad.xhtml" />
+			<p:menuitem value="Modificar enfermedades" icon="ui-icon-wrench" url="/administrador/enfermedad/modificarEnfermedad.xhtml" />
+			<p:menuitem value="Eliminar enfermedades" icon="ui-icon-cancel" url="/administrador/enfermedad/eliminarEnfermedad.xhtml" />
+		</p:submenu>
+		<p:submenu label="Gestión de Tratamientos" >
+			<p:menuitem value="Agregar tratamientos"  icon="ui-icon-plus" url="/administrador/tratamiento/crearTratamiento.xhtml" />
+			<p:menuitem value="Modificar tratamientos" icon="ui-icon-wrench" url="/administrador/tratamiento/modificarTratamiento.xhtml" />
+			<p:menuitem value="Eliminar tratamientos" icon="ui-icon-cancel" url="/administrador/tratamiento/eliminarTratamiento.xhtml" />
+		</p:submenu>
+	</p:panelMenu>
+	</h:form>
+</ui:composition>

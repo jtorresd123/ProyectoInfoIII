@@ -1,0 +1,31 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	<p:growl id="mensajes" showDetail="false" life="3000" />
+	
+	<h:form id="barraEstado">
+	<p:outputPanel id="datosLogin" rendered="#{!loginMB.loggedIn}" style="font-size:14px">
+		<h:panelGrid columns="5">
+			<p:outputLabel for="usuario" value="Nombre de Usuario:" /> 	
+			<p:inputText id="usuario" value="#{loginMB.login}" required="true" maxlength="8"/>
+			
+			<p:outputLabel for="clave" value="Contraseña:" /> 	
+			<p:password id="clave" value="#{loginMB.password}" required="true" maxlength="8">
+			</p:password>
+			<p:commandButton id="botonIniciar" value="Iniciar Sesión" actionListener="#{loginMB.iniciarSesion}" update=":mensajes"/>
+			<p:blockUI block="botonIniciar" trigger="botonIniciar" />
+		</h:panelGrid>
+	</p:outputPanel>
+	<p:outputPanel id="datosUsuario" rendered="#{loginMB.loggedIn}" style="font-size:14px">
+		<h:panelGrid columns="2" cellspacing="7"> 
+			<p:outputLabel value="¡Bienvenido, #{loginMB.login}!" style="float:left;font-weight: bold;"/>	
+			<p:commandLink value="Cerrar Sesión" actionListener="#{loginMB.cerrarSesion}" style="float:right" />
+		</h:panelGrid>
+	</p:outputPanel>
+	</h:form>
+</ui:composition>
